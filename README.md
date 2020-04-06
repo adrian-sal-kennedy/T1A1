@@ -25,6 +25,7 @@ I could certainly list a lot in between. Myself, the most significant moments we
 - FutureSplash / Macromedia Flash bringing rich content for so many years until (thank God) HTML5 did away with the need for it.
 - Internet forums. Sprung from mailing lists but far less arcane.
 - 4chan - This dumpster fire of a site has been easily as culture-defining as The Simpsons was to my generation.
+- Wikipedia - All the world's knowledge, reasonably accurate (moreso than ever before), immediately available, free, in every language. This is the noblest, highest goal of global networking.
 - Wikileaks. Showing the world some of the things you can use the Internet for.
 - Facebook. I hate it, I really do. But there's no denying the influence it's had in shaping the whole of society.
 - Cambridge Analytica and all that came with it.
@@ -153,4 +154,69 @@ A great disadvantage (conceptually - internally interpreters and compilers only 
 
 ### Compilers
 
-As opposed to executing code line-by-line, a compiler will translate all the code into machine code and place the result into "binaries", either executable or libraries that executables reference. Because the whole of the code is done in it's own "build" process, time can be taken to apply optimizations to the code, usually specific to the platform the compilers are running on.
+As opposed to executing code line-by-line, a compiler will translate all the code into machine code and place the result into "binaries", either executable or libraries that executables reference. Because the whole of the code is done in it's own "build" process, time can be taken to apply optimizations to the code, usually specific to the platform and hardware the compilers are running on.
+
+The advantage is that the resulting binaries can execute (in theory) as fast as the hardware is capable of. Modern compilers are extremely good at optimizing functions, unrolling loops, using custom CPU instruction sets etc and can speed programs up by ridiculous amounts. A program like x264 will use 100% of every CPU core in order to work as fast as possible. Some programs will even use the graphics card for further speed increase. Most of this ability is not available to interpreted languages (the exception is when an interpreted program calls functions that run from compiled libraries, something that python, R, etc make heavy use of).
+
+Q6 - Two programming languages
+------------------------------
+### C
+#### Advantages:
+- Very fast, with a modern compiler it runs bare metal speed.
+- Good for algorithms, hardcore processing.
+- Total control of "under the hood" stuff like memory management, caching, etc.
+- Very long history. Standardized and ubiquitous, many tools available, and the opensource ones are as good as any paid one (even custom compilers built by CPU makers).
+
+#### Disadvantages:
+- Very low-level and complicated. Hard to divine what is happening by reading the code, even if you wrote it yourself.
+- Because memory management is the sole responsibility of the programmer, it is highly insecure - vulnerabilities can come from anywhere. A classic example was an integer-overflow vulnerability where a specially crafted malicious JPEG picture was able to give an attacker control of an entire system by deliberately writing executable code to memory that it should not have had access to, then running it from user space to break into root space.
+- Not very friendly for rapid development. Being a compiled language, repeated build cycles are needed to test, or specialized testing tools built into the build environment (like Valgrind).
+
+### Python
+#### Advantages:
+- Fast and extensible.
+- Garbage-collected for security and stability (no integer-overflows-into-root-space).
+- Easy to read syntax.
+- With Cython, can be extended with external libraries that run at C and Assembly speed, or even on GPU for things like machine learning (PyTorch etc).
+
+#### Disadvantages:
+- Version conflicts between 2.7 and 3.5+ code unlikely to be resolved soon.
+- Messy and easy to screw up development environment. Lots of reinstalling and faith required, and hence every setup likely to be different.
+
+Q7 - Two ethical issues, One case study
+---------------------------------------
+
+### Criminal acts such as theft, fraud, trafficking and distribution of prohibited substances, terrorism  
+
+The balancing of user privacy and autonomy with responsibility to protect society is fraught. Any communication technology can be used to organize groups, and some of them can have nafarious aims.  
+
+I don't believe it is up to an IT professional to be a policing authority. Governments are concerned about encryption, and naturally wish to exercise control over it. However, they do not have control over un-recorded speech between people offline, and should not expect to be granted access to private communication online. Governments are no less accountable than any citizen, and in the case a government becomes compromised or hostile, it becomes important that citizens maintain the ability to organize.  
+
+Encryption with backdoors for "the good guys" is simply not secure against any attacker. A backdoor and a vulnerability are practically identical. Backdoors legislation should be resisted always.
+
+### Trading of shares on the stock exchange OR crypto-currencies
+
+In recent years High-Frequency Trading (HFT) has become big business. Internet connections in Wall Street are among the fastest in the world. The idea of conducting thousands of trades per second was terrifying to stock markets a few years ago, but appears to have settled into a niche without huge disruption.
+
+Cryptocurrencies present no particular ethical problem except their excessive and growing use of electricity, and the use of bot-nets of compromised machines to mine crypto currencies for hackers.
+
+### Case Study: Personal Information, Cambridge Analiytica et al, The Graph, And Manipulating Millions.
+
+"Big Data" is the biggest thing to happen to election campaigns probably ever. The ability to tailor messages and advertisements to the feelings (almost always fear) of thousands or specific groups of voters is without precedent. It is a perfect storm of wide adoption of social media through all demographics (including the less savvy), advances in Artificial Intelligence and Data Science and Moore's Law providing the computing power to chug through unbelievable amounts of data.  
+
+Some time around [2015][13], Cambridge Analytica recruited about 270,000 people to install an app as part of a paid study (academic purposes only). The app had access to their facebook profiles. Consent was given and it was not a big deal. Except that not only did the app gather data from the people who installed the app, but also nearly all of their facebook friends. 270,000 people became 87,000,000.  
+
+The data collected was detailed enough (and Cambridge Analytica's software was clever enough) to build frighteningly accurate profiles of people's personality, likes, dislikes, location, political leanings, etc etc. To give an idea of how powerful AI has become, a separate study found it could [tell a person's sexuality][14] with 91% accuracy using nothing but photographs of their faces).  
+
+These profiles were used for political persuasion. Though the results are impossible (even for the researchers) to pin down exactly, this and similar targeted, data-heavy ad campaigns are thought largely responsible for the swing in western nations toward conservative politics - Brexit, Trump, etc.  
+
+As to how an IT professional could respond to such things? It's hard to say. There may not be anything that can be done except to try to inform everyone you can to share less personal information, to try to maintain scepticism. It's a losing battle though - human brains are ancient and can't be patched like software. [The smartest of us can be manipulated][15], and the information that an AI can use will not be obvious to us.  
+
+Simply refusing to participate may be tantamount to standing back and letting it happen - there will always be bad actors willing to pursue this technology, so if good people refuse it's an overall loss.
+
+
+
+
+[13]:https://en.wikipedia.org/w/index.php?title=Facebook%E2%80%93Cambridge_Analytica_data_scandal&oldid=948823015
+[14]:https://www.theguardian.com/technology/2017/sep/07/new-artificial-intelligence-can-tell-whether-youre-gay-or-straight-from-a-photograph
+[15]:https://www.pcworld.com/article/221504/8_security_tips_to_learn_from_the_hbgary_hack.html
