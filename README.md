@@ -333,6 +333,21 @@ puts i
     arr[i] = arr[i + 1]
     arr[i + 1] = arr[i]
 ```
+This code fails because it is overwriting a value that it then looks up immediately after overwriting it. The last two lines need a rewrite. Either store the first as a variable and call it up later, or create a new array with the swapped values.  
+
+So:
+```ruby
+arr = [5, 22, 29, 39, 19, 51, 78, 96, 84]
+i = 0
+while (i < arr.size - 1 and arr[i] < arr[i + 1])
+	i = i + 1 end
+puts i
+    arri = arr[i + 1]
+    arr[i + 1] = arr[i]
+    arr[i] = arri
+```
+Will give the expected result. I have created a variable "arri" named for what the code originally said, but with no square brackets. I then store this back into the array at the correct location after copying arr[i] to arr[i+1].
+
 
 Q14 - Prime numbers
 -------------------
@@ -359,4 +374,67 @@ primes.select! do |i|
 end
 
 p primes
+```
+
+Q15 - Cold and Rainy
+--------------------
+
+```ruby
+if temperature < 15
+  if raining
+    puts "It's wet and cold"
+  else
+    puts "It's not raining but cold"
+  end
+else
+  if raining
+    puts "It's warm and raining"
+  else
+    puts "It's warm but not raining"
+  end
+end
+```
+
+Q16 - Allergies
+--------------
+
+An allergy test produces a single numeric score which contains the information about all the allergies the person has (that they were tested for). The list of items (and their value) that were tested are:
+ - eggs (1)
+ - peanuts (2)
+ - shellfish (4)
+ - strawberries (8)
+ - tomatoes (16)
+ - chocolate (32)
+ - pollen (64)
+ - cats (128)
+
+So if Tom is allergic to peanuts and chocolate, he gets a score of 34.
+
+Write a program that, given a person’s score can tell them:
+ a) whether or not they’re allergic to a given item
+ b) the full list of allergies.
+
+ ```ruby
+ def list_allergies()
+  page = <<-ALLERGIES
+ - eggs
+ - peanuts
+ - shellfish
+ - strawberries
+ - tomatoes
+ - chocolate
+ - pollen
+ - cats
+  ALLERGIES
+  puts page
+end
+
+def return_allergies(mask)
+  allergies = ["eggs","peanuts","shellfish","strawberries","tomatoes","chocolate","pollen","cats"]
+  arr = ("%08b" % mask).chars.reverse
+  list = arr.each_index.select {|i| arr[i] == "1" }
+  list.each {|i| puts allergies[i]}
+end
+
+return_allergies(34)
 ```
