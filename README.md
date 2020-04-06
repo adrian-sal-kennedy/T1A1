@@ -214,9 +214,149 @@ As to how an IT professional could respond to such things? It's hard to say. The
 
 Simply refusing to participate may be tantamount to standing back and letting it happen - there will always be bad actors willing to pursue this technology, so if good people refuse it's an overall loss.
 
-
-
-
 [13]:https://en.wikipedia.org/w/index.php?title=Facebook%E2%80%93Cambridge_Analytica_data_scandal&oldid=948823015
 [14]:https://www.theguardian.com/technology/2017/sep/07/new-artificial-intelligence-can-tell-whether-youre-gay-or-straight-from-a-photograph
 [15]:https://www.pcworld.com/article/221504/8_security_tips_to_learn_from_the_hbgary_hack.html
+
+
+Q8 - Control Flow
+-----------------
+
+Control flow simply means running different code in response to different conditions. At it's simplest it's means running one set of instructions if a condition is met, and another (or none at all) if it is not:
+
+```
+if condition == true
+  # do something
+  puts "foo"
+else
+  # do something else
+  puts "bar"
+end
+```
+"condition" here can be the name of a variable (in which case the above Ruby will evaluate "true" if the variable is defined and not "nil", and "false" if it's undefined or set to "nil")
+"==" is a special case of "equals" - a comparison, where a single "=" means assignment of a value. Comparison implies either true or false.
+
+Ruby takes this further - one need only write ```if condition```, and it will automatically return true or false so the comparison is redundant.
+
+Going beyond if-statements, code can loop or iterate a given number of times, until a condition is met, or forever in the case of a bug, or it can run different blocks of code based on a list of possible conditions (a "case" statement).
+
+Q9 - Type coercion
+------------------
+
+Variables in programming languages are expressed internally as one of several Data Types. Numbers can be integers, decimals (floating-point) of various flavours, fractions, strings, arrays of any number of dimensions, dictionaries and pointers to memory locations.  
+
+It is possible to write an expression that mixes types, like adding an integer to a float, or dividing two integers (but expecting a correct result), etc.  
+
+Type Coercion happens when the interpreter or compiler automatically converts data types in order to make the code execute without error, when it makes sense to do so. In the case of 1 + 3.14159, it will convert "1" to a float before adding it to the other float, so the correct answer is given. If coercion happened the other way we would end up with 4 instead of 4.14159.
+
+Q10 - Data Types
+----------------
+
+Expanding on type coercion, here are some common data types:
+
+- (Signed) Integers: 1, 43, -593, 65535  
+  An unsigned integer would begin at zero. A signed one uses an extra bit to encode the sign. Some legacy data formats use unsigned int, such as telephone signals (8-bit unsigned ints sampled 8000 times per second with a possible range of 0-255)
+- Floating point numbers: 3.1415926535898, 1.3245E30, 1.0  
+  Conceptually easy to understand - a number with decimal places. In practice there are several standards and lengths. "Single precision" is 32 bits, "Double" is 64 bits, "short" is 16 bits (common in GPUs where precision is not as important as speed), etc.  
+  Structurally, floating point numbers encode an "exponent" that represents the order of magnitude, and a "mantissa" that is analogous to the decimal places, but that depends entirely on the exponent. "Standard form" of expressing numbers in mathematics is closest to how floats work - any number becomes n.nnn * 10^x, where the n's are the mantissa and the x is the exponent.
+- Strings: "foo", "bar", "Lorem Ipsum Dolor"
+  Just text, of usually arbitrary length. The amount of bytes each character is encoded with is usually determined by the operating system, but usually UTF-8 or Unicode or one of the multitudes of codepages that are international standards. Not everyone uses the Roman alphabet.
+- Chars: single characters. A string could be considered an array of chars.
+- Arrays:  [1,2,"foo",1.4142,["wut",2,3,4],nil]  
+  A list of values that can themselves be any data type (even arrays). The values can be referenced by an index that usually starts at zero.
+- Dictionaries or Hashes:  {key: "value", key2: "value2"}  
+  Similar to an array, but instead of an index we reference with another value, so we have a key:value pair structure.
+
+Q11 - Here’s the problem:
+-------------------------
+### There is a restaurant serving a variety of food. The customers want to be able to buy food of their choice. All the staff just quit, how can you build an app to replace them?
+- Identify the classes you would use to solve the problem
+- Write a short explanation of why you would use the classes you have identified
+
+I would have a menu hash full of Dish Class objects and prices as key:value pairs, a Table class with seat numbers, that I can associate Dish objects with and use to tally up the bill which would be per-table but split-able because it's assigned per seat.
+
+**class Dish:**
+- dish name
+- ingredients (potentially with a spiel on each one, and wholesale prices of each. Ingredient will need it's own class eventually)
+- price
+- options (hot, mild, searing-pain, rare, blue, burnt etc)
+- special status (dish of the day, chef's choice, etc)
+
+**class Table:**
+- location
+- seats (list of seat objects)
+- time since last served
+- order list
+- price tally
+
+**class Seat:**
+- table number
+- Dish ordered
+- time since order made
+- price tally of Dish objects
+
+**class Waiter:**
+- processes orders
+- delivers food
+- interfaces with my Robot's API so we can do away with human staff.
+
+**class Chef:**
+- prompts chefBot with instructions and ingredients
+- manages inventory
+- cleans as it goes, maintaining HACCP compliance. My insurance doesn't cover food poisoning from robots.
+
+It doesn't seem necessary for a menu to be a class, as a list should do. I might change my mind on this if I'm opening for lunch or having issues with RSA
+
+Q12 - Code Fail
+---------------
+
+```ruby
+celsius = gets
+fahrenheit = (celsius * 9 / 5) + 32
+print "The result is: "
+print fahrenheit
+puts "."
+```
+Two problems:
+- "celcius" will be a string because gets always returns a string (with a newline on the end). It needs a ```gets.chomp.to_f```
+- All numbers are ints, so the result will be based on truncated maths. The 5 at least should be expressed as ```5.0```
+
+Q13 - Code Fail 2
+-----------------
+
+```ruby
+arr = [5, 22, 29, 39, 19, 51, 78, 96, 84]
+i = 0
+while (i < arr.size - 1 and arr[i] < arr[i + 1])
+	i = i + 1 end
+puts i
+    arr[i] = arr[i + 1]
+    arr[i + 1] = arr[i]
+```
+
+Q14 - Prime numbers
+-------------------
+### Flow:
+- create array from 1 to 100, in odd numbers only (no even number is prime. Might as well save some time and storage)
+- using "select!" method (in-place array mutation), test each array element in turn to see if it is divisible by any number other than itself and 1.
+  - begin at 3, because 2 is useless with odd numbers only, 1 will always return true.
+  - end at number - 1, because number will return true.
+  - use a method to check primeness. This is good for neatness and maintainability if I ever want to replace the algorithm with something that works faster for large numbers.
+- print the resulting, drastically reduced array.
+
+
+```ruby
+def prime? (number)
+  3.upto(number-1) do |i|
+    return number % i == 0 ? false : next
+  end
+end
+
+primes = (1..100).step(2).to_a
+
+primes.select! do |i|
+  prime?(i)
+end
+
+p primes
+```
